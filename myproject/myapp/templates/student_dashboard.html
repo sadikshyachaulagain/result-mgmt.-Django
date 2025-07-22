@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-primary">Welcome, {{ request.user.student.full_name }}</h2>
+    <p class="text-muted">
+      Your Roll: {{ request.user.student.roll_number }}
+    </p>
+
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">View Result</button>
+    </form>
+
+    {% if result_data %}
+        <div class="mt-4">
+            <h4 class="text-success">Result</h4>
+            <p><strong>Course:</strong> {{ result_data.course.name }}</p>
+            <p><strong>Marks Obtained:</strong> {{ result_data.marks_obtained }}</p>
+        </div>
+    {% elif form.is_bound %}
+        <p class="text-danger mt-3">No result found for the selected course.</p>
+    {% endif %}
+</div>
+{% endblock %}
